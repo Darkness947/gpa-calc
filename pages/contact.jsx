@@ -1,4 +1,4 @@
-import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaEnvelope, FaGithub, FaLinkedin, FaMapMarkerAlt, FaExternalLinkAlt } from 'react-icons/fa';
 
 function Contact() {
   return (
@@ -49,6 +49,18 @@ function Contact() {
             <div className="card-body">
               <h5 className="card-title">Location</h5>
               <p className="card-text">Eastern Province, Saudi Arabia</p>
+            </div>
+          </div>
+        </div>
+
+        {/* External Link (Optional) */}
+        <div className="col-md-4 mb-4">
+          <div className="card bg-dark text-white h-100 text-center p-3">
+            <FaExternalLinkAlt size={50} className="mb-3" />
+            <div className="card-body">
+              <h5 className="card-title">My Portfolio Web App</h5>
+              <p className="card-text">My Portfolio</p>
+              <a href="https://hussain-portfolio-dev.netlify.app" target="_blank" rel="noreferrer" className="btn btn-outline-primary">Visit My Portfolio</a>
             </div>
           </div>
         </div>
