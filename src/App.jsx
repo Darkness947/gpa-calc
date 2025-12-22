@@ -1,29 +1,40 @@
-import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
-import Navbar from '../components/navbar';
-import Footer from '../components/footer';
-import Home from '../pages/home';
-import Calc from '../pages/calc';
-import Contact from '../pages/contact';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { GPAProvider } from './context/GPAContext';
+import { GlobalStyles } from './styles/GlobalStyles';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import Home from './pages/Home';
+import Calc from './pages/Calc';
+import Contact from './pages/Contact';
+import './i18n/i18n';
 
 function App() {
+  const { i18n } = useTranslation();
+
+  useEffect(() => {
+    document.body.dir = i18n.dir();
+  }, [i18n.language]);
+
   return (
-    <>
+    <GPAProvider>
+      <GlobalStyles dir={i18n.dir()} />
       <Router>
-      <div className='d-flex flex-column min-vh-100 bg-dark text-white'>
-      <Navbar />
-      <div className='container flex-grow-1 mt-4'>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/calc" element={<Calc />} />
-        <Route path="/contact" element={<Contact />} />
-        {/* Add more routes as needed */}
-      </Routes>
-      </div>
-      <Footer />
-      </div>
-    </Router>
-    </>
-  )
+        <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Navbar />
+          <main style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/calc" element={<Calc />} />
+              <Route path="/contact" element={<Contact />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </GPAProvider>
+  );
 }
 
-export default App
+export default App;
