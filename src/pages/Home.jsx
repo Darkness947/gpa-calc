@@ -175,17 +175,27 @@ const TipText = styled.p`
 const Home = () => {
   const { t } = useTranslation();
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+
     const handleMouseMove = (e) => {
-      setMousePosition({
-        x: e.clientX,
-        y: e.clientY
-      });
+      if (window.innerWidth > 768) {
+        setMousePosition({
+          x: e.clientX,
+          y: e.clientY
+        });
+      }
     };
 
+    window.addEventListener('resize', handleResize);
     window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
   }, []);
 
   const heroWordVariants = {
@@ -235,22 +245,35 @@ const Home = () => {
   return (
     <div>
       <HeroSection>
-        <BackgroundShape
-          animate={{
-            x: (mousePosition.x * -0.05),
-            y: (mousePosition.y * -0.05),
-          }}
-          transition={{ type: 'spring', damping: 50 }}
-          style={{ width: '600px', height: '600px', top: '-10%', left: '-10%', background: 'var(--primary-color)' }}
-        />
-        <BackgroundShape
-          animate={{
-            x: (mousePosition.x * 0.05),
-            y: (mousePosition.y * 0.05),
-          }}
-          transition={{ type: 'spring', damping: 50 }}
-          style={{ width: '500px', height: '500px', bottom: '-10%', right: '-10%', background: 'var(--secondary-color)' }}
-        />
+        {!isMobile ? (
+          <>
+            <BackgroundShape
+              animate={{
+                x: (mousePosition.x * -0.05),
+                y: (mousePosition.y * -0.05),
+              }}
+              transition={{ type: 'spring', damping: 50 }}
+              style={{ width: '600px', height: '600px', top: '-10%', left: '-10%', background: 'var(--primary-color)' }}
+            />
+            <BackgroundShape
+              animate={{
+                x: (mousePosition.x * 0.05),
+                y: (mousePosition.y * 0.05),
+              }}
+              transition={{ type: 'spring', damping: 50 }}
+              style={{ width: '500px', height: '500px', bottom: '-10%', right: '-10%', background: 'var(--secondary-color)' }}
+            />
+          </>
+        ) : (
+          <>
+            <BackgroundShape
+              style={{ width: '300px', height: '300px', top: '10%', left: '-20%', background: 'var(--primary-color)', filter: 'blur(60px)', opacity: 0.3 }}
+            />
+            <BackgroundShape
+              style={{ width: '300px', height: '300px', bottom: '10%', right: '-20%', background: 'var(--secondary-color)', filter: 'blur(60px)', opacity: 0.3 }}
+            />
+          </>
+        )}
 
         <HugeTitle>
           {t('hero_title').split(' ').map((word, i) => (

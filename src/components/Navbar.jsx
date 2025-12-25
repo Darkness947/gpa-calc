@@ -96,10 +96,11 @@ const MobileMenu = styled(motion.div)`
   z-index: 999;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start; /* Changed from center to avoid clipping */
   align-items: center;
   gap: 2rem;
-  padding: 2rem;
+  padding: 6rem 2rem 2rem 2rem; /* Added top padding for close button */
+  overflow-y: auto; /* Enable scrolling for small landscape screens */
 `;
 
 const CloseBtn = styled.button`
