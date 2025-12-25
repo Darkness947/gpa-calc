@@ -92,24 +92,33 @@ const MobileMenu = styled(motion.div)`
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Modern mobile browser support */
   background: var(--bg-dark);
   z-index: 999;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start; /* Changed from center to avoid clipping */
+  justify-content: center; /* keep center but ensure no clip */
   align-items: center;
-  gap: 2rem;
-  padding: 6rem 2rem 2rem 2rem; /* Added top padding for close button */
-  overflow-y: auto; /* Enable scrolling for small landscape screens */
+  gap: 2rem; /* Restore decent spacing */
+  padding: 2rem;
+  overflow-y: hidden; /* Prevent double scroll */
+  
+  @media (max-height: 600px) {
+    justify-content: flex-start;
+    padding-top: 5rem;
+    overflow-y: auto;
+    gap: 1rem;
+  }
 `;
 
 const CloseBtn = styled.button`
   position: absolute;
-  top: 2rem;
-  ${props => props.dir === 'rtl' ? 'left: 2rem;' : 'right: 2rem;'}
+  top: 1rem;
+  ${props => props.dir === 'rtl' ? 'left: 1rem;' : 'right: 1rem;'}
   background: transparent;
   color: white;
-  font-size: 2rem;
+  font-size: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -163,7 +172,7 @@ const Navbar = () => {
                 key={link.to}
                 to={link.to}
                 onClick={() => setIsOpen(false)}
-                style={{ fontSize: '1.5rem' }}
+                style={{ fontSize: '1.4rem' }}
               >
                 {link.icon} {link.label}
               </StyledLink>
